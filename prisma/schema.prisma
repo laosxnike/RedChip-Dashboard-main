@@ -1,0 +1,269 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id                   String                @id @default(uuid())
+  name                 String                @unique
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  dashboards           Dashboard[]           @relation("ClientDashboards")
+  emailPerformances    EmailPerformance[]    @relation("ClientEmailPerformances")
+  feedbacks            Feedback[]            @relation("ClientFeedbacks")
+  landingPageTraffics  LandingPageTraffic[]  @relation("ClientLandingPageTraffics")
+  ownerships           Ownership[]           @relation("ClientOwnerships")
+  researchCoverages    ResearchCoverage[]    @relation("ClientResearchCoverages")
+  shortPositionRecords ShortPositionRecord[] @relation("ClientShortPositionRecords")
+  stats                Stats[]               @relation("ClientStats")
+  webinarPerformances  WebinarPerformance[]  @relation("ClientWebinarPerformances")
+}
+
+model Dashboard {
+  id                        String           @id @default(cuid())
+  totalFollowers            Int              @default(0)
+  newFollowers              Int              @default(0)
+  engagementRate            Float            @default(0)
+  dailyAverageNewFollowers  Float            @default(0)
+  qrCodeEngagement          Int              @default(0)
+  totalPosts                Int              @default(0)
+  averageLikes              Float            @default(0)
+  followersChartData        Json?
+  engagementRateChartData   Json?
+  adImpressionsChartData    Json?
+  ctrChartData              Json?
+  platformInsightsChartData Json?
+  clientId                  String
+  googleAnalyticsData       Json
+  pageviews                 Int              @default(0)
+  sessions                  Int              @default(0)
+  users                     Int              @default(0)
+  updatedAt                 DateTime         @updatedAt
+  fetchedAt                 DateTime         @default(now())
+  newUsers                  Int              @default(0)
+  client                    Client           @relation("ClientDashboards", fields: [clientId], references: [id])
+  platformSources           PlatformSource[]
+  charts                    Chart[]
+  youtubeViews              Int       @default(0)
+  youtubeViewsGrowth        Float     @default(0)
+  youtubeWatchTime          Int       @default(0)  // stored in minutes
+  youtubeWatchTimeGrowth    Float     @default(0)
+  youtubeSubscribers        Int       @default(0)
+  youtubeSubscribersGrowth  Float     @default(0)
+  youtubeAvgViewDuration    Int       @default(0)  // stored in seconds
+  youtubeAvgViewGrowth      Float     @default(0)
+  youtubeEngagementRate     Float     @default(0)
+  youtubeEngagementGrowth   Float     @default(0)
+  youtubeNewVideos          Int       @default(0)
+  youtubeNewVideosGrowth    Float     @default(0)
+  youtubeAnalyticsData      Json?     // Keep this for additional metadata
+
+  @@unique([clientId])
+}
+
+model PlatformMetric {
+  id      String @id @default(uuid())
+  name    String
+  metrics Json
+}
+
+model KPI {
+  id    String @id @default(uuid())
+  label String
+  value String
+}
+
+model AdPerformance {
+  id       String @id @default(uuid())
+  platform String
+  organic  Int
+  paid     Int
+}
+
+model EngagingPost {
+  id       String @id @default(uuid())
+  imageUrl String
+  title    String
+}
+
+model EngagedUser {
+  id              String @id @default(uuid())
+  name            String
+  engagementCount Int
+  avatarUrl       String
+}
+
+model EmailPerformance {
+  id             String   @id @default(uuid())
+  clientId       String
+  date           DateTime
+  sends          Int
+  opens          Int
+  clicks         Int
+  conversionRate Float
+  client         Client   @relation("ClientEmailPerformances", fields: [clientId], references: [id])
+}
+
+model ShortPositionRecord {
+  id                 String   @id @default(uuid())
+  clientId           String
+  date               DateTime
+  shortVolume        Int
+  shortExemptVolume  Int
+  totalVolume        Int
+  client             Client   @relation("ClientShortPositionRecords", fields: [clientId], references: [id])
+}
+
+model Ownership {
+  id          String @id @default(uuid())
+  clientId    String
+  institution String
+  shares      Int
+  change      String
+  client      Client @relation("ClientOwnerships", fields: [clientId], references: [id])
+}
+
+model ResearchCoverage {
+  id          String   @id @default(uuid())
+  clientId    String
+  date        DateTime
+  firm        String
+  rating      String
+  priceTarget Int
+  client      Client   @relation("ClientResearchCoverages", fields: [clientId], references: [id])
+}
+
+model LandingPageTraffic {
+  id             String   @id @default(uuid())
+  clientId       String
+  date           DateTime
+  pageViews      Int
+  uniqueVisitors Int
+  conversionRate Float
+  client         Client   @relation("ClientLandingPageTraffics", fields: [clientId], references: [id])
+}
+
+model WebinarPerformance {
+  id             String   @id @default(uuid())
+  clientId       String
+  date           DateTime
+  registrations  Int
+  attendance     Int
+  conversionRate Float
+  client         Client   @relation("ClientWebinarPerformances", fields: [clientId], references: [id])
+}
+
+model Stats {
+  id         String @id @default(uuid())
+  clientId   String
+  title      String
+  value      String
+  totalViews Int    @default(0)
+  totalLeads Int    @default(0)
+  leadsToday Int    @default(0)
+  client     Client @relation("ClientStats", fields: [clientId], references: [id])
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  clientId  String
+  comment   String
+  rating    Int
+  createdAt DateTime @default(now())
+  client    Client   @relation("ClientFeedbacks", fields: [clientId], references: [id])
+}
+
+model User {
+  id        String      @id @default(uuid())
+  name      String
+  email     String      @unique
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  lastLogin DateTime?
+  posts     Post[]
+  sessions  Session[]   @relation("UserSessions")
+  pageViews PageView[]  @relation("UserPageViews")
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    User     @relation(fields: [authorId], references: [id])
+  likes     Int      @default(0)
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  startedAt DateTime @default(now())
+  endedAt   DateTime?
+  user      User     @relation("UserSessions", fields: [userId], references: [id])
+}
+
+model PageView {
+  id        String   @id @default(uuid())
+  page      String
+  userId    String
+  viewCount Int      @default(1)
+  user      User     @relation("UserPageViews", fields: [userId], references: [id])
+}
+
+model AdvertSource {
+  id          String @id @default(uuid())
+  name        String
+  impressions Int
+}
+
+model UserLocation {
+  id     String @id @default(uuid())
+  region String
+  city   String
+  count  Int
+}
+
+model SiteNavigation {
+  id     String @id @default(uuid())
+  page   String
+  visits Int
+}
+
+model Metric {
+  id               String   @id @default(cuid())
+  bounceRate       Float
+  CPA              Float
+  conversionRate   Float
+  CTR              Float
+  sessionDuration  Float
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  date             DateTime @default(now()) @map("date")
+}
+
+model PlatformSource {
+  id          String    @id @default(cuid())
+  platform    String
+  users       Int
+  dashboardId String
+  dashboard   Dashboard @relation(fields: [dashboardId], references: [id])
+}
+
+model Chart {
+  id               String   @id @default(uuid())
+  type             String
+  labels           String
+  datasetLabel     String
+  data             String
+  borderColor      String
+  backgroundColor  String
+  dashboardId      String
+  dashboard        Dashboard @relation(fields: [dashboardId], references: [id])
+}

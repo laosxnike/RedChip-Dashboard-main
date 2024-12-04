@@ -1,0 +1,111 @@
+{
+    "overview": {
+      "title": "ZOM Overview",
+      "metrics": {
+        "totalViews": 500000,
+        "totalLeads": 50000,
+        "leadsToday": 100
+      },
+      "charts": {
+        "pageViews": [
+          { "name": "Jan 1", "value": 400 },
+          { "name": "Jan 8", "value": 300 },
+          { "name": "Jan 15", "value": 500 },
+          { "name": "Jan 22", "value": 200 }
+        ],
+        "engagement": [
+          { "name": "Jan 1", "value": 2400 },
+          { "name": "Jan 8", "value": 1398 },
+          { "name": "Jan 15", "value": 9800 },
+          { "name": "Jan 22", "value": 3908 }
+        ]
+      }
+    },
+    "ownership": {
+      "institutions": [
+        { "name": "Fidelity Investments Inc.", "shares": 100000, "change": "+10,000" },
+        { "name": "Vanguard Group Inc.", "shares": 200000, "change": "-5,000" },
+        { "name": "BlackRock Inc.", "shares": 150000, "change": "+20,000" }
+      ]
+    },
+    "research-coverage": {
+      "records": [
+        {
+          "date": "2024-01-01",
+          "firm": "Firm A",
+          "rating": "Buy",
+          "priceTarget": 150
+        },
+        {
+          "date": "2024-01-15",
+          "firm": "Firm B",
+          "rating": "Hold",
+          "priceTarget": 130
+        }
+      ]
+    },
+    "landing-page-traffic": {
+      "records": [
+        {
+          "date": "2024-01-01",
+          "pageViews": 10000,
+          "uniqueVisitors": 8000,
+          "conversionRate": 5.0
+        },
+        {
+          "date": "2024-01-15",
+          "pageViews": 15000,
+          "uniqueVisitors": 12000,
+          "conversionRate": 6.5
+        }
+      ]
+    },
+    "webinar-performance": {
+      "records": [
+        {
+          "date": "2024-01-10",
+          "registrations": 500,
+          "attendance": 450,
+          "conversionRate": 90.0
+        },
+        {
+          "date": "2024-01-20",
+          "registrations": 600,
+          "attendance": 550,
+          "conversionRate": 91.7
+        }
+      ]
+    },
+    "email-performance": {
+      "records": [
+        {
+          "date": "2024-01-05",
+          "sends": 10000,
+          "opens": 8000,
+          "clicks": 1500,
+          "conversionRate": 15.0
+        },
+        {
+          "date": "2024-01-25",
+          "sends": 12000,
+          "opens": 9000,
+          "clicks": 1800,
+          "conversionRate": 15.0
+        }
+      ]
+    },
+    "stats": {
+      "records": [
+        { "title": "Total Views", "value": "500,000" },
+        { "title": "Total Leads", "value": "50,000" },
+        { "title": "Leads Today", "value": "100" }
+      ]
+    },
+    "feedback": {
+      "comments": [
+        { "comment": "Great service!", "rating": 5 },
+        { "comment": "Needs improvement in data accuracy.", "rating": 3 }
+      ]
+    }
+  }
+  

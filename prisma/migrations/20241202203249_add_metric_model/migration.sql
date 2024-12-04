@@ -1,0 +1,13 @@
+-- CreateTable
+CREATE TABLE "Metric" (
+    "id" TEXT NOT NULL,
+    "bounceRate" DOUBLE PRECISION NOT NULL,
+    "CPA" DOUBLE PRECISION NOT NULL,
+    "conversionRate" DOUBLE PRECISION NOT NULL,
+    "CTR" DOUBLE PRECISION NOT NULL,
+    "sessionDuration" DOUBLE PRECISION NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Metric_pkey" PRIMARY KEY ("id")
+);

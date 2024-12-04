@@ -1,0 +1,156 @@
+// prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Client {
+  id                   String                @id @default(cuid())
+  name                 String                @unique()
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  dashboards           Dashboard[]           @relation("ClientDashboards")
+  emailPerformances    EmailPerformance[]    @relation("ClientEmailPerformances")
+  shortPositionRecords ShortPositionRecord[] @relation("ClientShortPositionRecords")
+  ownerships           Ownership[]           @relation("ClientOwnerships")
+  researchCoverages    ResearchCoverage[]    @relation("ClientResearchCoverages")
+  landingPageTraffics  LandingPageTraffic[]  @relation("ClientLandingPageTraffics")
+  webinarPerformances  WebinarPerformance[]  @relation("ClientWebinarPerformances")
+  stats                Stats[]               @relation("ClientStats")
+  feedbacks            Feedback[]            @relation("ClientFeedbacks")
+}
+
+model Dashboard {
+  id                        String   @id @default(cuid())
+  totalFollowers            Int      
+  newFollowers              Int      
+  engagementRate            Float    
+  dailyAverageNewFollowers  Int      
+  qrCodeEngagement          Int      
+  totalPosts                Int      
+  averageLikes              Int      
+  followersChartData        Json     
+  engagementRateChartData   Json     
+  adImpressionsChartData    Json     
+  ctrChartData              Json     
+  platformInsightsChartData Json     
+  clientId                  String   
+  client                    Client   @relation("ClientDashboards", fields: [clientId], references: [id])
+}
+
+model PlatformMetric {
+  id      String @id @default(cuid())
+  name    String
+  metrics Json
+}
+
+model KPI {
+  id    String @id @default(cuid())
+  label String
+  value String
+}
+
+model AdPerformance {
+  id       String @id @default(cuid())
+  platform String
+  organic  Int
+  paid     Int
+}
+
+model EngagingPost {
+  id       String @id @default(cuid())
+  imageUrl String
+  title    String
+}
+
+model EngagedUser {
+  id              String @id @default(cuid())
+  name            String
+  engagementCount Int
+  avatarUrl       String
+}
+
+model EmailPerformance {
+  id             String   @id @default(cuid())
+  clientId       String
+  date           DateTime
+  sends          Int
+  opens          Int
+  clicks         Int
+  conversionRate Float
+  client         Client   @relation("ClientEmailPerformances", fields: [clientId], references: [id])
+}
+
+model ShortPositionRecord {
+  id                String @id @default(cuid())
+  clientId          String
+  date              DateTime
+  shortVolume       Int
+  shortExemptVolume Int
+  totalVolume       Int
+  client            Client @relation("ClientShortPositionRecords", fields: [clientId], references: [id])
+}
+
+model Ownership {
+  id          String @id @default(cuid())
+  clientId    String
+  institution String
+  shares      Int
+  change      String
+  client      Client @relation("ClientOwnerships", fields: [clientId], references: [id])
+}
+
+model ResearchCoverage {
+  id          String @id @default(cuid())
+  clientId    String
+  date        DateTime
+  firm        String
+  rating      String
+  priceTarget Int
+  client      Client @relation("ClientResearchCoverages", fields: [clientId], references: [id])
+}
+
+model LandingPageTraffic {
+  id             String @id @default(cuid())
+  clientId       String
+  date           DateTime
+  pageViews      Int
+  uniqueVisitors Int
+  conversionRate Float
+  client         Client @relation("ClientLandingPageTraffics", fields: [clientId], references: [id])
+}
+
+model WebinarPerformance {
+  id             String @id @default(cuid())
+  clientId       String
+  date           DateTime
+  registrations  Int
+  attendance     Int
+  conversionRate Float
+  client         Client @relation("ClientWebinarPerformances", fields: [clientId], references: [id])
+}
+
+model Stats {
+  id         String @id @default(cuid())
+  clientId   String
+  title      String
+  value      String
+  totalViews Int    @default(0)
+  totalLeads Int    @default(0)
+  leadsToday Int    @default(0)
+  client     Client @relation("ClientStats", fields: [clientId], references: [id])
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  clientId  String
+  comment   String
+  rating    Int
+  createdAt DateTime @default(now())
+  client    Client   @relation("ClientFeedbacks", fields: [clientId], references: [id])
+}
