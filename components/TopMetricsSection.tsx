@@ -54,31 +54,31 @@ const TopMetricsSection: React.FC = () => {
     refreshInterval: 60000
   });
 
-  console.log('Weekly Dashboard Data:', data);
-
   if (error) console.error('Error fetching metrics:', error);
 
-  const metrics: Metric[] = [
+  if (!data) return <div>Loading...</div>;
+
+  const displayMetrics = [
     {
-      title: "Engagement rate",
-      value: data?.engagementRate?.toFixed(2) || '0',
-      change: data?.trends?.engagementRate || defaultTrend
+      title: "Engagement Rate",
+      value: data.engagementRate.toFixed(1),
+      change: data.trends?.engagementRate
     },
     {
       title: "New Users",
-      value: data?.newUsers || 0,
-      change: data?.trends?.newUsers || defaultTrend
+      value: data.newUsers,
+      change: data.trends?.newUsers
     },
     {
-      title: "Page Views",
-      value: data?.pageviews || 0,
-      change: data?.trends?.pageviews || defaultTrend
+      title: "Pageviews",
+      value: data.pageviews,
+      change: data.trends?.pageviews
     }
   ];
 
   return (
     <div className="flex flex-wrap gap-4 p-4">
-      {metrics.map((metric, index) => (
+      {displayMetrics.map((metric, index) => (
         <TopMetricsCard key={index} {...metric} />
       ))}
     </div>

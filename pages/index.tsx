@@ -15,6 +15,7 @@ import Avatar from 'boring-avatars';
 import ClientsSection from '../components/ClientsSection';
 import Header from '../components/Header';
 import Head from 'next/head';
+import DashboardCharts from '../components/DashboardCharts';
 
 interface MetricCardProps {
   title: string;
@@ -110,6 +111,19 @@ const ClientTag: React.FC<{ symbol: string }> = ({ symbol }) => (
     <p className="text-white text-sm font-medium leading-normal">{symbol}</p>
   </div>
 );
+
+interface TopMetric {
+  title: string;
+  value: string;
+  change: {
+    value: string;
+    trend: 'up' | 'down';
+  };
+}
+
+interface TopMetricsSectionProps {
+  metrics: TopMetric[];
+}
 
 const AnalyticsDashboard: React.FC = () => {
   const topMetrics = [
@@ -459,38 +473,10 @@ const AnalyticsDashboard: React.FC = () => {
                 </div>
               </div>
 
-              <TopMetricsSection metrics={topMetrics} />
+              <TopMetricsSection />
 
               <div className="flex flex-wrap gap-4 px-4 py-6">
-                <div className="flex min-w-72 flex-1 flex-col gap-2 rounded-xl border border-[#3b4954] p-6 h-64 overflow-hidden">
-                  <p className="text-white text-base font-medium">Visitors Over Time</p>
-                  <DynamicLineChart data={lineChartData} options={chartOptions} />
-                </div>
-
-                <div className="flex min-w-72 flex-1 flex-col gap-2 rounded-xl border border-[#3b4954] p-6 h-64 overflow-hidden">
-                  <p className="text-white text-base font-medium">Daily Active Users</p>
-                  <DynamicLineChart title="Daily Active Users" data={dailyActiveUsersData} options={dailyActiveUsersOptions} />
-                </div>
-
-                <div className="flex min-w-72 flex-1 flex-col gap-2 rounded-xl border border-[#3b4954] p-6 h-64 overflow-hidden">
-                  <p className="text-white text-base font-medium">Visitors Over Time</p>
-                  <DynamicLineChart title="Visitors Over Time" data={lineChartData} options={chartOptions} />
-                </div>
-
-                <div className="flex min-w-72 flex-1 flex-col gap-2 rounded-xl border border-[#3b4954] p-6 h-64 overflow-hidden">
-                  <p className="text-white text-base font-medium">Daily Active Users</p>
-                  <DynamicLineChart title="Daily Active Users" data={dailyActiveUsersData} options={dailyActiveUsersOptions} />
-                </div>
-
-                <div className="flex min-w-72 flex-1 flex-col gap-2 rounded-xl border border-[#3b4954] p-6 h-64 overflow-hidden">
-                  <p className="text-white text-base font-medium">Visitors Over Time</p>
-                  <DynamicLineChart title="Visitors Over Time" data={lineChartData} options={chartOptions} />
-                </div>
-
-                <div className="flex min-w-72 flex-1 flex-col gap-2 rounded-xl border border-[#3b4954] p-6 h-64 overflow-hidden">
-                  <p className="text-white text-base font-medium">Daily Active Users</p>
-                  <DynamicLineChart title="Daily Active Users" data={dailyActiveUsersData} options={dailyActiveUsersOptions} />
-                </div>
+                <DashboardCharts />
               </div>
 
               <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Platform-Specific Metrics</h2>

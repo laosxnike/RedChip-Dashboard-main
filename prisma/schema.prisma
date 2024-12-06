@@ -61,6 +61,12 @@ model Dashboard {
   youtubeNewVideos          Int       @default(0)
   youtubeNewVideosGrowth    Float     @default(0)
   youtubeAnalyticsData      Json?     // Keep this for additional metadata
+  trafficSources          Json?    @default("{}")  // Organic, Paid, Social, Direct, Referral
+  topPages                Json?    @default("{}")  // Array of {path, views}
+  sessionDurationData     Json?    @default("{}")  // {labels: string[], data: number[]}
+  adsPerformance          Json?    @default("{}")  // {labels: string[], data: number[]}
+  geoDistribution         Json?    @default("{}")  // {labels: string[], data: number[]}
+  visitorMetrics          Json?    @default("{}")  // {labels: string[], returning: number[], new: number[]}
 
   @@unique([clientId])
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { LatLngTuple } from 'leaflet';
 
 interface LocationData {
   latitude: number;
@@ -14,7 +15,7 @@ interface UserLocationHeatmapProps {
 
 const UserLocationHeatmap: React.FC<UserLocationHeatmapProps> = ({ locations }) => {
   // Calculate the center of the map based on the locations
-  const center = [
+  const center: LatLngTuple = [
     locations.reduce((sum, loc) => sum + loc.latitude, 0) / locations.length || 0,
     locations.reduce((sum, loc) => sum + loc.longitude, 0) / locations.length || 0,
   ];
